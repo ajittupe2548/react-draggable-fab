@@ -1,0 +1,17 @@
+{
+  "name": "react-draggable-button",
+  "version": "0.1.0",
+  "description": "Draggable button sticks to edge of device when released",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "draggable",
+    "button",
+    "sticky",
+    "edge"
+  ],
+  "author": "Ajit Tupe",
+  "license": "MIT"
+}
