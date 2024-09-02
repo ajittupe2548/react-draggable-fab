@@ -1,9 +1,8 @@
-import React from "react";
+import React from 'react';
+import './draggable-button.css';
 
 function DraggableButton() {
-    return (
-        <div>DraggableButton</div>
-    )
+    return <div className='container'>DraggableButton</div>;
 }
 
-export default DraggableButton
+export default DraggableButton;

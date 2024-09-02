@@ -1,11 +1,10 @@
 import React from 'react';
+import DraggableButton from '../../src';
 
-import styles from  './App.scss';
-
-const app = () => {
+const App = () => {
     return (
-        <h1 className={styles.heading}>DraggableButton Example!</h1>
+        <DraggableButton />
     )
 }
 
-export default app;
+export default App;
