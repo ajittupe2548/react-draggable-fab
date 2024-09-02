@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/ajittupe2548/react-draggable-button/issues"
   },
-  "homepage": "https://github.com/dutiyesh/react-expand-collapse#readme",
+  "homepage": "https://github.com/ajittupe2548/react-draggable-button#readme",
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
