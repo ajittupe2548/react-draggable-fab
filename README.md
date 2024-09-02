@@ -1,4 +1,4 @@
-# react-expand-collapse
+# react-draggable-button
 
 A simple and customizable draggable button component for the web, allowing users to move it around the screen with it snapping to a corner on release.
 
