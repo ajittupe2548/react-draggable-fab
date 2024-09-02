@@ -1,5 +1,5 @@
 import React from 'react';
-import DraggableButton from '../../src';
+import DraggableButton from '../../src/DraggableButton';
 
 const App = () => {
     return (
