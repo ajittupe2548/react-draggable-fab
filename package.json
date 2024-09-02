@@ -5,10 +5,11 @@
   "scripts": {
     "format": "prettier --config ./.prettierrc --write \"src/**/*{.js,.jsx,.ts,.tsx,.css,.scss}\"",
     "dev": "webpack-dev-server --mode development",
-    "buildExample": "webpack --mode production",
+    "buildExample": "rimraf examples/dist && webpack --mode production",
     "build:js": "babel src -d dist --copy-files",
     "build:css": "postcss src/draggable-button.css --output dist/draggable-button.css",
-    "build": "npm run build:js && npm run build:css"
+    "build": "rimraf dist && npm run build:js && npm run build:css",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "draggable",
@@ -39,7 +40,6 @@
     "postcss-cli": "^11.0.0",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "sass-loader": "^16.0.1",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
