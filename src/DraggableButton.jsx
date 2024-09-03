@@ -1,32 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import getThemeClasses from '@oxygen/theme';
 import { CompareSvg, CloseBoldSvg } from './svg-icons';
 
 import './draggable-button.css';
-
-const getCountClasses = shouldShowCount =>
-    getThemeClasses(`
-    position-absolute;
-    border-radius-half;
-    font-weight-semibold;
-    text-align-center;
-    user-select-none;
-    top-0;
-    right-0;
-    bg-primary-900;
-    height-4;
-    width-4;
-    ${shouldShowCount ? styles.shouldShowCountStyle : 'opacity-0'};
-`);
-
-const textClasses = isTextVisible =>
-    getThemeClasses(`
-    pr-2;
-    overflow-hidden;
-    user-select-none;
-    ${!isTextVisible ? styles.textTransitionStyle : ''};
-`);
 
 const propTypes = {
     /* Delay to add grayed out button style. It needs to be plus 1s since it starts when transition of text starts. */
@@ -37,8 +13,6 @@ const propTypes = {
     closeBtnClassName: PropTypes.string,
     /* Count subtext on collapsed state */
     count: PropTypes.number,
-    /* Value for DTI prop */
-    'data-testing-id': PropTypes.string.isRequired,
     /** If `true`, It will be visible */
     isVisible: PropTypes.bool,
     /** Callback fired when user click on component */
@@ -61,41 +35,22 @@ const propTypes = {
     align: PropTypes.oneOf(['left', 'right']),
 };
 
-const defaultProps = {
-    closeBtnBottomValue: '100px',
-    closeBtnClassName: '',
-    count: 0,
-    blurredBtnDelay: 3000,
-    isVisible: false,
-    onClick: () => {},
-    onClose: () => {},
-    overlayClassName: '',
-    text: '',
-    threshold: 50,
-    xPositionValue: '6px',
-    yPositionValue: '400px',
-    className: getThemeClasses(`z-index-10;`),
-    align: 'left',
-};
-
-function DraggableButton(props) {
-    const {
-        blurredBtnDelay,
-        closeBtnBottomValue,
-        closeBtnClassName,
-        count,
-        isVisible,
-        onClick,
-        onClose,
-        overlayClassName,
-        text,
-        threshold,
-        xPositionValue,
-        yPositionValue,
-        className,
-        align,
-    } = props;
-
+function DraggableButton({
+    blurredBtnDelay=3000,
+    closeBtnBottomValue='100px',
+    closeBtnClassName='',
+    count=0,
+    isVisible=false,
+    onClick=() => {},
+    onClose=() => {},
+    overlayClassName='',
+    text='',
+    threshold=50,
+    xPositionValue='6px',
+    yPositionValue='400px',
+    className='',
+    align='left',
+}) {
     const [isDragging, setIsDragging] = useState(false);
 
     const draggableBtnRef = useRef();
@@ -228,24 +183,20 @@ function DraggableButton(props) {
         <>
             <div
                 style={initialPositionStyles}
-                className={`container ${isVisible ? '' : 'visibility-hidden'} ${!currentTextRef.current.isTextVisible && !isDragging ? 'opacity-50' : ''} ${className}`}
+                className={`container ${isVisible ? '' : 'visibility-hidden'} ${(!currentTextRef.current.isTextVisible && !isDragging) ? 'opacity-50' : ''} ${className}`}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 ref={draggableBtnRef}
             >
                 <p
-                    className={textClasses(
-                        currentTextRef.current.isTextVisible
-                    )}
+                    className={`text ${currentTextRef.current.isTextVisible ? 'textTransitionStyle' : ''}`}
                 >
                     {text || currentTextRef.current.currentText}
                 </p>
-                <CompareSvg className='icon' />
+                <CompareSvg />
                 <span
-                    className={getCountClasses(
-                        !currentTextRef.current.isTextVisible
-                    )}
+                    className={`count ${currentTextRef.current.isTextVisible ? 'opacity-0' : 'countTransition'}`}
                 >
                     {count}
                 </span>
@@ -269,6 +220,5 @@ function DraggableButton(props) {
 }
 
 DraggableButton.propTypes = propTypes;
-DraggableButton.defaultProps = defaultProps;
 
 export default DraggableButton;

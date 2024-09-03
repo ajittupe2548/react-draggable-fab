@@ -1,6 +1,6 @@
 .container {
     background-color: #00857a;
-    align-content: center;
+    align-items: center;
     justify-content: center;
     padding: 12px;
     color: #fff;
@@ -13,19 +13,15 @@
     border-radius: 20px;
     box-shadow: 0 2px 4px 0 #6f6f6f;
     touch-action: none;
-}
-
-.icon {
-    color: #fff;
+    z-index: 10;
 }
 
 .closeButton {
     position: fixed;
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
     padding: 12px;
-    color: #fff;
     left: 50%;
     border: 4px solid #e1e1e1;
     border-radius: 50%;
@@ -34,6 +30,7 @@
     transform: translateX(-50%);
     user-select: none;
     transition: transform 0.6s ease, bottom 0.6s ease;
+    z-index: 8;
 }
 
 .overlay {
@@ -53,4 +50,43 @@
 
 .opacity-50 {
     opacity: 0.5;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.count {
+    position: absolute;
+    border-radius: 50%;
+    font-weight: 600;
+    text-align: center;
+    user-select: none;
+    top: 0;
+    right: 0;
+    background-color: #e03012;
+    height: 16px;
+    width: 16px;
+}
+
+.countTransition {
+    transition: opacity 0.5s linear 0.5s;
+}
+
+.text {
+    padding-right: 8px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.textTransitionStyle {
+    max-width: 150px;
+    animation: textAnimation 0.5s forwards linear 0.5s;
+}
+
+@keyframes textAnimation {
+    100% {
+        max-width: 0;
+        padding: 0;
+    }
 }

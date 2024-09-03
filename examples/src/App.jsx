@@ -3,7 +3,7 @@ import DraggableButton from '../../src/DraggableButton';
 
 const App = () => {
     return (
-        <DraggableButton />
+        <DraggableButton isVisible text='Expanded Text' />
     )
 }
 
