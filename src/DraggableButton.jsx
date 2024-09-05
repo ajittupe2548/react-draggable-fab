@@ -36,20 +36,20 @@ const propTypes = {
 };
 
 function DraggableButton({
-    blurredBtnDelay=3000,
-    closeBtnBottomValue='100px',
-    closeBtnClassName='',
-    count=0,
-    isVisible=false,
-    onClick=() => {},
-    onClose=() => {},
-    overlayClassName='',
-    text='',
-    threshold=50,
-    xPositionValue='6px',
-    yPositionValue='400px',
-    className='',
-    align='left',
+    blurredBtnDelay = 3000,
+    closeBtnBottomValue = '100px',
+    closeBtnClassName = '',
+    count = 0,
+    isVisible = false,
+    onClick = () => {},
+    onClose = () => {},
+    overlayClassName = '',
+    text = '',
+    threshold = 50,
+    xPositionValue = '6px',
+    yPositionValue = '400px',
+    className = '',
+    align = 'left',
 }) {
     const [isDragging, setIsDragging] = useState(false);
 
@@ -79,7 +79,7 @@ function DraggableButton({
         };
     }, [count]);
 
-    const handleTouchStart = event => {
+    const handleTouchStart = (event) => {
         event.preventDefault();
 
         document.body.style.overflow = 'hidden';
@@ -88,7 +88,7 @@ function DraggableButton({
         return false;
     };
 
-    const handleTouchMove = event => {
+    const handleTouchMove = (event) => {
         event.stopPropagation();
 
         const { clientX, clientY } = event.changedTouches[0];
@@ -132,7 +132,7 @@ function DraggableButton({
         return false;
     };
 
-    const handleTouchEnd = e => {
+    const handleTouchEnd = (e) => {
         const { clientX, clientY } = e.changedTouches[0];
         const { clientHeight, style } = draggableBtnRef.current;
         const { isTextVisible } = currentTextRef.current;
@@ -153,8 +153,9 @@ function DraggableButton({
             style.top = `${yPosition - clientHeight / 2}px`;
             style.left = shouldStickonLeft ? '6px' : null;
             style.right = !shouldStickonLeft ? '6px' : null;
-            style.transition = `inset 0.5s, opacity 0.2s linear ${blurredBtnDelay /
-                1000}s`;
+            style.transition = `inset 0.5s, opacity 0.2s linear ${
+                blurredBtnDelay / 1000
+            }s`;
 
             if (isCloseButtonHoveredRef.current && onClose) {
                 onClose();
@@ -183,7 +184,7 @@ function DraggableButton({
         <>
             <div
                 style={initialPositionStyles}
-                className={`container ${isVisible ? '' : 'visibility-hidden'} ${(!currentTextRef.current.isTextVisible && !isDragging) ? 'opacity-50' : ''} ${className}`}
+                className={`container ${isVisible ? '' : 'visibility-hidden'} ${!currentTextRef.current.isTextVisible && !isDragging ? 'opacity-50' : ''} ${className}`}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -210,11 +211,7 @@ function DraggableButton({
             >
                 <CloseBoldSvg />
             </div>
-            {isDragging && (
-                <div
-                    className={`overlay ${overlayClassName}`}
-                />
-            )}
+            {isDragging && <div className={`overlay ${overlayClassName}`} />}
         </>
     );
 }
