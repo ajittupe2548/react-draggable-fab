@@ -61,9 +61,7 @@ function DraggableButton({
     const closeBtnRef = useRef();
     const isCloseButtonHoveredRef = useRef(false);
 
-    const handleTouchStart = (event) => {
-        event.preventDefault();
-
+    const handleTouchStart = () => {
         document.body.style.height = '100%';
         document.body.style.overflow = 'hidden';
 
