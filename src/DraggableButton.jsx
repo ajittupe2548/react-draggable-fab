@@ -98,7 +98,7 @@ function DraggableButton({
 
         style.top = `${topPosition}px`;
         style.left = `${leftPosition}px`;
-        style.right = null;
+        style.right = `${window.innerWidth - rightPosition}px`;
 
         if (!isDragging) {
             style.transition = null;
