@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { CloseBoldSvg } from './svg-icons';
 
@@ -61,16 +61,14 @@ function DraggableButton({
     const closeBtnRef = useRef();
     const isCloseButtonHoveredRef = useRef(false);
 
-    const handleTouchStart = () => {
+    const handleTouchStart = useCallback(() => {
         document.body.style.height = '100%';
         document.body.style.overflow = 'hidden';
 
         draggableBtnRef.current.style.opacity = 1;
+    }, []);
 
-        return false;
-    };
-
-    const handleTouchMove = (event) => {
+    const handleTouchMove = useCallback((event) => {
         event.stopPropagation();
 
         const { clientX, clientY } = event.changedTouches[0];
@@ -107,11 +105,9 @@ function DraggableButton({
             style.transition = null;
             setIsDragging(true);
         }
+    }, [isDragging]);
 
-        return false;
-    };
-
-    const handleTouchEnd = (e) => {
+    const handleTouchEnd = useCallback((e) => {
         const { clientX, clientY } = e.changedTouches[0];
         const { clientHeight, style } = draggableBtnRef.current;
         const windowHeight = window.innerHeight;
@@ -144,15 +140,12 @@ function DraggableButton({
 
         document.body.style.height = 'auto';
         document.body.style.overflow = 'auto';
-
-        return false;
-    };
+    }, [threshold, blurredBtnDelay, onClose, onClick]);
 
     const initialPositionStyles = {
         top: yPositionValue,
         transition: `opacity 0.2s linear ${blurredBtnDelay / 1000}s`,
-        right: `${align === 'right' ? xPositionValue : null}`,
-        left: `${align !== 'right' ? xPositionValue : null}`,
+        ...(align === 'right' ? { right: xPositionValue } : { left: xPositionValue })
     };
 
     return (
