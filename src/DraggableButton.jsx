@@ -49,9 +49,7 @@ function DraggableButton({
     const [isDragging, setIsDragging] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
-            draggableBtnRef.current.style.opacity = 0.5;
-        }, blurredBtnDelay);
+        draggableBtnRef.current.style.opacity = 0.5;
     }, [])
 
     const draggableBtnRef = useRef();
@@ -131,9 +129,7 @@ function DraggableButton({
             style.left = shouldStickonLeft ? xPositionValue : null;
             style.right = !shouldStickonLeft ? xPositionValue : null;
             draggableBtnRef.current.style.opacity = 0.5;
-            style.transition = `inset 0.5s, opacity 0.2s linear ${
-                blurredBtnDelay / 1000
-            }s`;
+            style.transition = `inset 0.5s, opacity 0.2s linear ${blurredBtnDelay / 1000}s`;
 
             if (isCloseButtonHoveredRef.current && onClose) {
                 onClose();
@@ -151,7 +147,7 @@ function DraggableButton({
 
     const initialPositionStyles = {
         top: yPositionValue,
-        transition: `opacity 0.2s linear`,
+        transition: `opacity 0.2s linear ${blurredBtnDelay / 1000}s`,
         right: `${align === 'right' ? xPositionValue : null}`,
         left: `${align !== 'right' ? xPositionValue : null}`,
     };
