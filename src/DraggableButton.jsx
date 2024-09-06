@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { CompareSvg, CloseBoldSvg } from './svg-icons';
+import { CloseBoldSvg } from './svg-icons';
 
 import './draggable-button.css';
 
 const propTypes = {
-    /* Delay to add grayed out button style. It needs to be plus 1s since it starts when transition of text starts. */
+    /* Delay to add grayed out button style. */
     blurredBtnDelay: PropTypes.number,
     /** Bottom style value for close btn */
     closeBtnBottomValue: PropTypes.string,
     /** Custom className for the close btn */
     closeBtnClassName: PropTypes.string,
-    /* Count subtext on collapsed state */
-    count: PropTypes.number,
     /** If `true`, It will be visible */
     isVisible: PropTypes.bool,
     /** Callback fired when user click on component */
@@ -21,8 +19,6 @@ const propTypes = {
     onClose: PropTypes.func,
     /* Custom classes for overlay(Blackout window)  */
     overlayClassName: PropTypes.string,
-    /* Initial text value to show with icon */
-    text: PropTypes.string,
     /* Vertical threshold value for position, component will not stick below/above threshold value */
     threshold: PropTypes.number,
     /** Horizontal left position value of component from the window */
@@ -39,51 +35,36 @@ function DraggableButton({
     blurredBtnDelay = 3000,
     closeBtnBottomValue = '100px',
     closeBtnClassName = '',
-    count = 0,
     isVisible = false,
     onClick = () => {},
     onClose = () => {},
     overlayClassName = '',
-    text = '',
     threshold = 50,
     xPositionValue = '6px',
     yPositionValue = '400px',
     className = '',
     align = 'left',
+    children,
 }) {
     const [isDragging, setIsDragging] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            draggableBtnRef.current.style.opacity = 0.5;
+        }, blurredBtnDelay);
+    }, [])
 
     const draggableBtnRef = useRef();
     const closeBtnRef = useRef();
     const isCloseButtonHoveredRef = useRef(false);
-    const currentTextRef = useRef({ currentText: text, isTextVisible: !!text });
-
-    useEffect(() => {
-        if (text !== '') {
-            currentTextRef.current.currentText = text;
-        } else if (!isDragging && currentTextRef.current.isTextVisible) {
-            currentTextRef.current.isTextVisible = false;
-        }
-    }, [text, isDragging]);
-
-    useEffect(() => {
-        const { style } = draggableBtnRef.current;
-        style.opacity = 1;
-        style.transition = null;
-        const timeoutId = setTimeout(() => {
-            style.transition = `opacity .2s linear`;
-            style.opacity = null;
-        }, blurredBtnDelay);
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [count]);
 
     const handleTouchStart = (event) => {
         event.preventDefault();
 
         document.body.style.overflow = 'hidden';
         document.body.style.height = '100%';
+
+        draggableBtnRef.current.style.opacity = 1;
 
         return false;
     };
@@ -92,7 +73,6 @@ function DraggableButton({
         event.stopPropagation();
 
         const { clientX, clientY } = event.changedTouches[0];
-        const { isTextVisible } = currentTextRef.current;
 
         const closePositionObj = closeBtnRef.current.getBoundingClientRect();
         const { left, right, top, bottom } = closePositionObj;
@@ -120,9 +100,7 @@ function DraggableButton({
 
         style.top = `${topPosition}px`;
         style.left = `${leftPosition}px`;
-        style.right = !isTextVisible
-            ? `${window.innerWidth - rightPosition}px`
-            : null;
+        style.right = null;
 
         if (!isDragging) {
             style.transition = null;
@@ -135,7 +113,6 @@ function DraggableButton({
     const handleTouchEnd = (e) => {
         const { clientX, clientY } = e.changedTouches[0];
         const { clientHeight, style } = draggableBtnRef.current;
-        const { isTextVisible } = currentTextRef.current;
         const windowHeight = window.innerHeight;
 
         if (isDragging) {
@@ -153,15 +130,13 @@ function DraggableButton({
             style.top = `${yPosition - clientHeight / 2}px`;
             style.left = shouldStickonLeft ? '6px' : null;
             style.right = !shouldStickonLeft ? '6px' : null;
+            draggableBtnRef.current.style.opacity = 0.5;
             style.transition = `inset 0.5s, opacity 0.2s linear ${
                 blurredBtnDelay / 1000
             }s`;
 
             if (isCloseButtonHoveredRef.current && onClose) {
                 onClose();
-            }
-            if (text === '' && isTextVisible) {
-                currentTextRef.current.isTextVisible = false;
             }
             setIsDragging(false);
         } else if (onClick) {
@@ -176,31 +151,22 @@ function DraggableButton({
 
     const initialPositionStyles = {
         top: yPositionValue,
-        transition: `opacity 0.2s linear ${blurredBtnDelay / 1000}s`,
+        transition: `opacity 0.2s linear`,
         right: `${align === 'right' ? xPositionValue : null}`,
         left: `${align !== 'right' ? xPositionValue : null}`,
     };
+
     return (
         <>
             <div
                 style={initialPositionStyles}
-                className={`container ${isVisible ? '' : 'visibility-hidden'} ${!currentTextRef.current.isTextVisible && !isDragging ? 'opacity-50' : ''} ${className}`}
+                className={`container ${isVisible ? '' : 'display-none'} ${className}`}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 ref={draggableBtnRef}
             >
-                <p
-                    className={`text ${currentTextRef.current.isTextVisible ? 'textTransitionStyle' : ''}`}
-                >
-                    {text || currentTextRef.current.currentText}
-                </p>
-                <CompareSvg />
-                <span
-                    className={`count ${currentTextRef.current.isTextVisible ? 'opacity-0' : 'countTransition'}`}
-                >
-                    {count}
-                </span>
+                {children}
             </div>
             <div
                 className={`closeButton ${closeBtnClassName}`}
