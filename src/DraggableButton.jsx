@@ -50,6 +50,11 @@ function DraggableButton({
 
     useEffect(() => {
         draggableBtnRef.current.style.opacity = 0.5;
+
+        return () => {
+            document.body.style.height = 'auto';
+            document.body.style.overflow = 'auto';
+        }
     }, [])
 
     const draggableBtnRef = useRef();
@@ -59,8 +64,8 @@ function DraggableButton({
     const handleTouchStart = (event) => {
         event.preventDefault();
 
-        document.body.style.overflow = 'hidden';
         document.body.style.height = '100%';
+        document.body.style.overflow = 'hidden';
 
         draggableBtnRef.current.style.opacity = 1;
 
