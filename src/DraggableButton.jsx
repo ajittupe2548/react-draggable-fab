@@ -40,7 +40,7 @@ function DraggableButton({
     onClose = () => {},
     overlayClassName = '',
     threshold = 50,
-    xPositionValue = '6px',
+    xPositionValue = '0',
     yPositionValue = '400px',
     className = '',
     align = 'left',
@@ -128,8 +128,8 @@ function DraggableButton({
             }
 
             style.top = `${yPosition - clientHeight / 2}px`;
-            style.left = shouldStickonLeft ? '6px' : null;
-            style.right = !shouldStickonLeft ? '6px' : null;
+            style.left = shouldStickonLeft ? xPositionValue : null;
+            style.right = !shouldStickonLeft ? xPositionValue : null;
             draggableBtnRef.current.style.opacity = 0.5;
             style.transition = `inset 0.5s, opacity 0.2s linear ${
                 blurredBtnDelay / 1000
