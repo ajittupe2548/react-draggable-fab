@@ -210,7 +210,7 @@ function DraggableButton({
 
     const initialPositionStyles = {
         top: yPosition,
-        transition: `opacity 0.2s linear`,
+        transition: 'opacity 0.2s linear',
         ...(stickyEdge === 'right'
             ? { right: xPosition }
             : { left: xPosition }),
