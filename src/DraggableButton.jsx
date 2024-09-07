@@ -57,15 +57,19 @@ function DraggableButton({
         isCloseButtonHovered: false,
         isMouseDown: false,
         isTouchEvent: false,
+        timeoutId: null,
     });
 
     useEffect(() => {
-        buttonElemRef.current.style.opacity = 0.5;
+        dataRef.current.timeoutId = setTimeout(() => {
+            buttonElemRef.current.style.opacity = 0.5;
+        }, blurDelay);
         window.addEventListener('mousemove', handleMove);
 
         return () => {
             document.body.style.height = 'auto';
             document.body.style.overflow = 'auto';
+            clearTimeout(dataRef.current.timeoutId);
             window.removeEventListener('mousemove', handleMove);
         };
     }, []);
@@ -78,6 +82,7 @@ function DraggableButton({
 
     const handleStart = useCallback((event) => {
         dataRef.current.isTouchEvent = event.type === 'touchstart';
+        clearTimeout(dataRef.current.timeoutId);
         if (event.type !== 'touchstart') {
             dataRef.current.isMouseDown = true;
         }
@@ -205,7 +210,7 @@ function DraggableButton({
 
     const initialPositionStyles = {
         top: yPosition,
-        transition: `opacity 0.2s linear ${blurDelay / 1000}s`,
+        transition: 'opacity 0.2s linear',
         ...(stickyEdge === 'right'
             ? { right: xPosition }
             : { left: xPosition }),
