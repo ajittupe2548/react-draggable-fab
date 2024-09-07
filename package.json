@@ -1,5 +1,5 @@
 {
-  "name": "react-draggable-button",
+  "name": "react-draggable-fab",
   "version": "0.1.0",
   "description": "A simple and customizable draggable button component for the web. Users can easily move the button around the screen, and it will snap to an edge  upon release.",
   "main": "dist/DraggableButton.min.js",
@@ -16,12 +16,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ajittupe2548/react-draggable-button.git"
+    "url": "https://github.com/ajittupe2548/react-draggable-fab.git"
   },
   "bugs": {
-    "url": "https://github.com/ajittupe2548/react-draggable-button/issues"
+    "url": "https://github.com/ajittupe2548/react-draggable-fab/issues"
   },
-  "homepage": "https://github.com/ajittupe2548/react-draggable-button#readme",
+  "homepage": "https://github.com/ajittupe2548/react-draggable-fab#readme",
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

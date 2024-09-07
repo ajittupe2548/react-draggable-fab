@@ -1,4 +1,4 @@
-# react-draggable-button
+# react-draggable-fab
 
 A simple and customizable draggable button component for the web. Users can easily move the button around the screen, and it will snap to an edge  upon release.
 
@@ -16,21 +16,21 @@ A simple and customizable draggable button component for the web. Users can easi
 
 ## Demo
 
-[Demo Link](https://react-draggable-button.vercel.app/)
+[Demo Link](https://react-draggable-fab.vercel.app/)
 
 ## Installation
 
 To get started, install the component using npm:
 
 ```bash
-npm install react-draggable-button
+npm install react-draggable-fab
 ```
 
 ## Usage
 
 ```js
 import React from 'react';
-import DraggableButton from 'react-draggable-button';
+import DraggableButton from 'react-draggable-fab';
 
 const App = () => {
     return <DraggableButton {...props}>UNCONTROLLED</DraggableButton>;
