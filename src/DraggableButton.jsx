@@ -7,6 +7,10 @@ import './draggable-button.css';
 const propTypes = {
     /* Delay before applying the grayed-out (blurred) button style, in milliseconds. */
     blurDelay: PropTypes.number,
+    /** Content inside the draggable button. */
+    children: PropTypes.node,
+    /** Additional CSS class for the component wrapper. */
+    className: PropTypes.string,
     /** CSS `bottom` property value for the close button. */
     closeButtonBottom: PropTypes.string,
     /** Additional CSS class for the close button. */
@@ -19,34 +23,30 @@ const propTypes = {
     onClose: PropTypes.func,
     /* Additional CSS class for the overlay (background blackout).  */
     overlayClassName: PropTypes.string,
+    /** The edge of the screen where the button will stick (`left` or `right`). */
+    stickyEdge: PropTypes.oneOf(['left', 'right']),
     /* Threshold value for vertical positioning. The component will not stick above or below this threshold. */
     verticalThreshold: PropTypes.number,
     /** Horizontal position (CSS `left` or `right`) of the component relative to the window. */
     xPosition: PropTypes.string,
     /** Vertical position (CSS `top`) of the component relative to the window. */
     yPosition: PropTypes.string,
-    /** Additional CSS class for the component wrapper. */
-    className: PropTypes.string,
-    /** The edge of the screen where the button will stick (`left` or `right`). */
-    stickyEdge: PropTypes.oneOf(['left', 'right']),
-    /** Content inside the draggable button. */
-    children: PropTypes.node,
 };
 
 function DraggableButton({
     blurDelay = 3000,
+    children = '',
+    className = '',
     closeButtonBottom = '100px',
     closeButtonClassName = '',
     isVisible: isVisibleProp,
     onClick = () => {},
     onClose = () => {},
     overlayClassName = '',
+    stickyEdge = 'left',
     verticalThreshold = 50,
     xPosition = '0',
     yPosition = '400px',
-    className = '',
-    stickyEdge = 'left',
-    children,
 }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isVisible, setIsVisible] = useState(isVisibleProp ?? true);
