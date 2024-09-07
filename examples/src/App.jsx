@@ -6,14 +6,14 @@ const App = () => {
 
     const props = {
         blurDelay: 2000,
-        closeBtnBottomValue: '150px',
-        closeBtnClassName: 'custom-close-btn-class',
+        closeButtonBottom: '150px',
+        closeButtonClassName: 'custom-close-btn-class',
         onClick: () => console.log('Clicked!'),
         onClose: () => console.log('Closed!'),
         overlayClassName: 'custom-overlay-class',
-        threshold: 50,
-        xPositionValue: '4px',
-        yPositionValue: '200px',
+        verticalThreshold: 50,
+        xPosition: '4px',
+        yPosition: '200px',
         className: 'custom-class',
         stickyEdge: 'left',
     }
@@ -21,9 +21,9 @@ const App = () => {
     const controlledProps = {
         ...props,
         blurDelay: 4000,
-        closeBtnBottomValue: '50px',
-        threshold: 10,
-        yPositionValue: '300px',
+        closeButtonBottom: '50px',
+        verticalThreshold: 10,
+        yPosition: '300px',
         stickyEdge: 'right',
     }
 

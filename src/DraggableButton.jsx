@@ -5,45 +5,45 @@ import { CloseBoldSvg } from './svg-icons';
 import './draggable-button.css';
 
 const propTypes = {
-    /* Delay to add grayed out button style. */
+    /* Delay before applying the grayed-out (blurred) button style, in milliseconds. */
     blurDelay: PropTypes.number,
-    /** Bottom style value for close btn */
-    closeBtnBottomValue: PropTypes.string,
-    /** Custom className for the close btn */
-    closeBtnClassName: PropTypes.string,
-    /** If `true`, button will be visible */
+    /** CSS `bottom` property value for the close button. */
+    closeButtonBottom: PropTypes.string,
+    /** Additional CSS class for the close button. */
+    closeButtonClassName: PropTypes.string,
+    /** If `true`, the button will be visible. */
     isVisible: PropTypes.bool,
-    /** Callback fired when user click on component */
+    /** Callback function triggered when the button is clicked. */
     onClick: PropTypes.func,
-    /* Callback fired when user drops draggable btn on close btn  */
+    /* Callback function triggered when the draggable button is dropped onto the close button.  */
     onClose: PropTypes.func,
-    /* Custom classes for overlay(Blackout window)  */
+    /* Additional CSS class for the overlay (background blackout).  */
     overlayClassName: PropTypes.string,
-    /* Vertical threshold value for position, component will not stick below/above threshold value */
-    threshold: PropTypes.number,
-    /** Horizontal left position value of component from the window */
-    xPositionValue: PropTypes.string,
-    /** Vertical top position value of component from the window */
-    yPositionValue: PropTypes.string,
-    /** Custom class for the component wrapper. */
+    /* Threshold value for vertical positioning. The component will not stick above or below this threshold. */
+    verticalThreshold: PropTypes.number,
+    /** Horizontal position (CSS `left` or `right`) of the component relative to the window. */
+    xPosition: PropTypes.string,
+    /** Vertical position (CSS `top`) of the component relative to the window. */
+    yPosition: PropTypes.string,
+    /** Additional CSS class for the component wrapper. */
     className: PropTypes.string,
-    /** Sticky edge for the button. */
+    /** The edge of the screen where the button will stick (`left` or `right`). */
     stickyEdge: PropTypes.oneOf(['left', 'right']),
-    /** Children of the draggable button */
+    /** Content inside the draggable button. */
     children: PropTypes.node,
 };
 
 function DraggableButton({
     blurDelay = 3000,
-    closeBtnBottomValue = '100px',
-    closeBtnClassName = '',
+    closeButtonBottom = '100px',
+    closeButtonClassName = '',
     isVisible: isVisibleProp,
     onClick = () => {},
     onClose = () => {},
     overlayClassName = '',
-    threshold = 50,
-    xPositionValue = '0',
-    yPositionValue = '400px',
+    verticalThreshold = 50,
+    xPosition = '0',
+    yPosition = '400px',
     className = '',
     stickyEdge = 'left',
     children,
@@ -150,17 +150,17 @@ function DraggableButton({
             const shouldStickonLeft = clientX < window.innerWidth / 2;
 
             let yPosition;
-            if (windowHeight - clientY < threshold) {
-                yPosition = windowHeight - (threshold + clientHeight / 2);
-            } else if (windowHeight - clientY > windowHeight - threshold) {
-                yPosition = (threshold + clientHeight / 2);
+            if (windowHeight - clientY < verticalThreshold) {
+                yPosition = windowHeight - (verticalThreshold + clientHeight / 2);
+            } else if (windowHeight - clientY > windowHeight - verticalThreshold) {
+                yPosition = (verticalThreshold + clientHeight / 2);
             } else {
                 yPosition = clientY;
             }
 
             style.top = `${yPosition - clientHeight / 2}px`;
-            style.left = shouldStickonLeft ? xPositionValue : null;
-            style.right = !shouldStickonLeft ? xPositionValue : null;
+            style.left = shouldStickonLeft ? xPosition : null;
+            style.right = !shouldStickonLeft ? xPosition : null;
             draggableBtnRef.current.style.opacity = 0.5;
             style.transition = `inset 0.5s, opacity 0.2s linear ${blurDelay / 1000}s`;
 
@@ -177,12 +177,12 @@ function DraggableButton({
 
         document.body.style.height = 'auto';
         document.body.style.overflow = 'auto';
-    }, [isDragging, isTouch, threshold, blurDelay, onClose, onClick]);
+    }, [isDragging, isTouch, verticalThreshold, blurDelay, onClose, onClick]);
 
     const initialPositionStyles = {
-        top: yPositionValue,
+        top: yPosition,
         transition: `opacity 0.2s linear ${blurDelay / 1000}s`,
-        ...(stickyEdge === 'right' ? { right: xPositionValue } : { left: xPositionValue }),
+        ...(stickyEdge === 'right' ? { right: xPosition } : { left: xPosition }),
     };
 
     return (
@@ -200,9 +200,9 @@ function DraggableButton({
                 {children}
             </div>
             <div
-                className={`closeButton ${closeBtnClassName}`}
+                className={`closeButton ${closeButtonClassName}`}
                 style={{
-                    bottom: isDragging ? closeBtnBottomValue : -100,
+                    bottom: isDragging ? closeButtonBottom : -100,
                 }}
                 ref={closeBtnRef}
             >
