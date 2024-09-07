@@ -84,10 +84,25 @@ function DraggableButton({
         const { left, right, top, bottom } = closeBtnRef.current.getBoundingClientRect();
 
         const { clientWidth, clientHeight, style } = draggableBtnRef.current;
-        const topPosition = clientY - clientHeight / 2;
-        const leftPosition = clientX - clientWidth / 2;
-        const bottomPosition = clientY + clientHeight / 2;
-        const rightPosition = clientX + clientWidth / 2;
+
+        let topPosition = clientY - clientHeight / 2;
+        let leftPosition = clientX - clientWidth / 2;
+        let bottomPosition = clientY + clientHeight / 2;
+        let rightPosition = clientX + clientWidth / 2;
+
+        const maxTop = window.innerHeight - clientHeight;
+        const maxLeft = window.innerWidth - clientWidth;
+
+        if (topPosition < 0) topPosition = 0;
+        if (topPosition > maxTop) topPosition = maxTop;
+        if (leftPosition < 0) {
+            leftPosition = 0;
+            rightPosition = clientWidth;
+        }
+        if (leftPosition > maxLeft) {
+            rightPosition = window.innerWidth;
+            leftPosition = maxLeft;
+        };
 
         const closeButtonHovered =
             bottomPosition > top &&
