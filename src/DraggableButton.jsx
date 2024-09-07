@@ -187,11 +187,15 @@ function DraggableButton({
         ...(stickyEdge === 'right' ? { right: xPosition } : { left: xPosition }),
     };
 
+    const wrapperClass = `container ${className} ${isVisible ? '' : 'display-none'}`.trim();
+    const closeButtonClass = `close-button ${closeButtonClassName}`.trim();
+    const overlayClass = `overlay ${overlayClassName}`.trim();
+
     return (
         <>
             <div
                 style={initialPositionStyles}
-                className={`container ${isVisible ? '' : 'display-none'} ${className}`}
+                className={wrapperClass}
                 onTouchStart={handleStart}
                 onTouchMove={handleMove}
                 onTouchEnd={handleEnd}
@@ -202,7 +206,7 @@ function DraggableButton({
                 {children}
             </div>
             <div
-                className={`closeButton ${closeButtonClassName}`}
+                className={closeButtonClass}
                 style={{
                     bottom: isDragging ? closeButtonBottom : -100,
                 }}
@@ -210,7 +214,7 @@ function DraggableButton({
             >
                 <CloseBoldSvg />
             </div>
-            {isDragging && <div className={`overlay ${overlayClassName}`} />}
+            {isDragging && <div className={overlayClass} />}
         </>
     );
 }

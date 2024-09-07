@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-.closeButton {
+.close-button {
     position: fixed;
     display: flex;
     align-items: center;
