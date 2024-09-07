@@ -1,7 +1,7 @@
 {
   "name": "react-draggable-button",
   "version": "0.1.0",
-  "description": "A simple and customizable draggable button component for the web, allowing users to move it around the screen with it snapping to a corner on release.",
+  "description": "A simple and customizable draggable button component for the web. Users can easily move the button around the screen, and it will snap to an edge  upon release.",
   "main": "dist/DraggableButton.min.js",
   "scripts": {
     "format": "prettier --config ./.prettierrc --write \"src/**/*{.js,.jsx,.ts,.tsx,.css,.scss}\"",
