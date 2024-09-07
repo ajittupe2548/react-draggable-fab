@@ -49,7 +49,6 @@ function DraggableButton({
     children,
 }) {
     const [isDragging, setIsDragging] = useState(false);
-    const [isTouch, setIsTouch] = useState(false);
     const [isVisible, setIsVisible] = useState(isVisibleProp ?? true);
 
     const buttonElemRef = useRef();
@@ -57,6 +56,7 @@ function DraggableButton({
     const dataRef = useRef({
         isCloseButtonHovered: false,
         isMouseDown: false,
+        isTouchEvent: false,
     })
 
     useEffect(() => {
@@ -77,7 +77,7 @@ function DraggableButton({
     }, [isVisibleProp]);
 
     const handleStart = useCallback((event) => {
-        setIsTouch(event.type === 'touchstart');
+        dataRef.current.isTouchEvent = event.type === 'touchstart';
         if(event.type !== 'touchstart') {
             dataRef.current.isMouseDown = true;
         }
@@ -88,9 +88,9 @@ function DraggableButton({
 
     const handleMove = useCallback((event) => {
         event.stopPropagation();
-        if(!isTouch && !dataRef.current.isMouseDown) return;
-        const clientX = isTouch ? event.changedTouches[0].clientX : event.clientX;
-        const clientY = isTouch ? event.changedTouches[0].clientY : event.clientY;
+        if(!dataRef.current.isTouchEvent && !dataRef.current.isMouseDown) return;
+        const clientX = dataRef.current.isTouchEvent ? event.changedTouches[0].clientX : event.clientX;
+        const clientY = dataRef.current.isTouchEvent ? event.changedTouches[0].clientY : event.clientY;
 
         const { left, right, top, bottom } = closeButtonElemRef.current.getBoundingClientRect();
 
@@ -137,14 +137,14 @@ function DraggableButton({
             style.transition = null;
             setIsDragging(true);
         }
-    }, [isDragging, isTouch]);
+    }, [isDragging]);
 
     const handleEnd = useCallback((event) => {
-        if(!isTouch) {
+        if(!dataRef.current.isTouchEvent) {
             dataRef.current.isMouseDown = false;
         }
-        const clientX = isTouch ? event.changedTouches[0].clientX : event.clientX;
-        const clientY = isTouch ? event.changedTouches[0].clientY : event.clientY;
+        const clientX = dataRef.current.isTouchEvent ? event.changedTouches[0].clientX : event.clientX;
+        const clientY = dataRef.current.isTouchEvent ? event.changedTouches[0].clientY : event.clientY;
         const { clientHeight, style } = buttonElemRef.current;
         const windowHeight = window.innerHeight;
 
@@ -179,7 +179,7 @@ function DraggableButton({
 
         document.body.style.height = 'auto';
         document.body.style.overflow = 'auto';
-    }, [isDragging, isTouch, verticalThreshold, blurDelay, onClose, onClick]);
+    }, [isDragging, verticalThreshold, blurDelay, onClose, onClick]);
 
     const initialPositionStyles = {
         top: yPosition,
