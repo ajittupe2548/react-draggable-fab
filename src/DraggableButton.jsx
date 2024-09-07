@@ -51,14 +51,16 @@ function DraggableButton({
     const [isDragging, setIsDragging] = useState(false);
     const [isTouch, setIsTouch] = useState(false);
     const [isVisible, setIsVisible] = useState(isVisibleProp ?? true);
-    const isMouseDownRef = useRef(false);
 
-    const draggableBtnRef = useRef();
-    const closeBtnRef = useRef();
-    const isCloseButtonHoveredRef = useRef(false);
+    const buttonElemRef = useRef();
+    const closeButtonElemRef = useRef();
+    const dataRef = useRef({
+        isCloseButtonHovered: false,
+        isMouseDown: false,
+    })
 
     useEffect(() => {
-        draggableBtnRef.current.style.opacity = 0.5;
+        buttonElemRef.current.style.opacity = 0.5;
         window.addEventListener('mousemove', handleMove);
 
         return () => {
@@ -77,22 +79,22 @@ function DraggableButton({
     const handleStart = useCallback((event) => {
         setIsTouch(event.type === 'touchstart');
         if(event.type !== 'touchstart') {
-            isMouseDownRef.current = true;
+            dataRef.current.isMouseDown = true;
         }
         document.body.style.height = '100%';
         document.body.style.overflow = 'hidden';
-        draggableBtnRef.current.style.opacity = 1;
+        buttonElemRef.current.style.opacity = 1;
     }, []);
 
     const handleMove = useCallback((event) => {
         event.stopPropagation();
-        if(!isTouch && !isMouseDownRef.current) return;
+        if(!isTouch && !dataRef.current.isMouseDown) return;
         const clientX = isTouch ? event.changedTouches[0].clientX : event.clientX;
         const clientY = isTouch ? event.changedTouches[0].clientY : event.clientY;
 
-        const { left, right, top, bottom } = closeBtnRef.current.getBoundingClientRect();
+        const { left, right, top, bottom } = closeButtonElemRef.current.getBoundingClientRect();
 
-        const { clientWidth, clientHeight, style } = draggableBtnRef.current;
+        const { clientWidth, clientHeight, style } = buttonElemRef.current;
 
         let topPosition = clientY - clientHeight / 2;
         let leftPosition = clientX - clientWidth / 2;
@@ -120,11 +122,11 @@ function DraggableButton({
             leftPosition < right;
 
         if (closeButtonHovered) {
-            closeBtnRef.current.style.transform = 'translate(-50%, 0) scale(1.2)';
-            isCloseButtonHoveredRef.current = true;
+            closeButtonElemRef.current.style.transform = 'translate(-50%, 0) scale(1.2)';
+            dataRef.current.isCloseButtonHovered = true;
         } else {
-            closeBtnRef.current.style.transform = 'translate(-50%, 0)';
-            isCloseButtonHoveredRef.current = false;
+            closeButtonElemRef.current.style.transform = 'translate(-50%, 0)';
+            dataRef.current.isCloseButtonHovered = false;
         }
 
         style.top = `${topPosition}px`;
@@ -139,11 +141,11 @@ function DraggableButton({
 
     const handleEnd = useCallback((event) => {
         if(!isTouch) {
-            isMouseDownRef.current = false;
+            dataRef.current.isMouseDown = false;
         }
         const clientX = isTouch ? event.changedTouches[0].clientX : event.clientX;
         const clientY = isTouch ? event.changedTouches[0].clientY : event.clientY;
-        const { clientHeight, style } = draggableBtnRef.current;
+        const { clientHeight, style } = buttonElemRef.current;
         const windowHeight = window.innerHeight;
 
         if (isDragging) {
@@ -161,10 +163,10 @@ function DraggableButton({
             style.top = `${yPosition - clientHeight / 2}px`;
             style.left = shouldStickonLeft ? xPosition : null;
             style.right = !shouldStickonLeft ? xPosition : null;
-            draggableBtnRef.current.style.opacity = 0.5;
+            buttonElemRef.current.style.opacity = 0.5;
             style.transition = `inset 0.5s, opacity 0.2s linear ${blurDelay / 1000}s`;
 
-            if (isCloseButtonHoveredRef.current && onClose) {
+            if (dataRef.current.isCloseButtonHovered && onClose) {
                 onClose();
                 if(isVisibleProp === undefined) {
                     setIsVisible(false);
@@ -195,7 +197,7 @@ function DraggableButton({
                 onTouchEnd={handleEnd}
                 onMouseDown={handleStart}
                 onMouseUp={handleEnd}
-                ref={draggableBtnRef}
+                ref={buttonElemRef}
             >
                 {children}
             </div>
@@ -204,7 +206,7 @@ function DraggableButton({
                 style={{
                     bottom: isDragging ? closeButtonBottom : -100,
                 }}
-                ref={closeBtnRef}
+                ref={closeButtonElemRef}
             >
                 <CloseBoldSvg />
             </div>
