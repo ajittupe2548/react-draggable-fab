@@ -1,7 +1,7 @@
 examples
 src
 .prettierrc
-babel.config
-postcss.config
+babel.config.js
+postcss.config.js
 reset_node_modules.sh
-webpack.config
+webpack.config.js
