@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-fab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple and customizable draggable button component for the web. Users can easily move the button around the screen, and it will snap to an edge  upon release.",
   "main": "dist/DraggableButton.min.js",
   "scripts": {
