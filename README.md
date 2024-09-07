@@ -16,7 +16,7 @@ A simple and customizable draggable button component for the web. Users can easi
 
 ## Demo
 
-[Demo Link](https://react-draggable-fab.vercel.app/)
+<a href="https://react-draggable-fab.vercel.app/" target="_blank" rel="noopener noreferrer">Demo Link</a>
 
 ## Installation
 
@@ -33,7 +33,7 @@ import React from 'react';
 import DraggableButton from 'react-draggable-fab';
 
 const App = () => {
-    return <DraggableButton {...props}>UNCONTROLLED</DraggableButton>;
+    return <DraggableButton>Drag Me!</DraggableButton>;
 };
 ```
 
