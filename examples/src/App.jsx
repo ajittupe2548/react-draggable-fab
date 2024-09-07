@@ -5,7 +5,7 @@ const App = () => {
     const [isVisible, setIsVisible] = useState(true);
 
     const props = {
-        blurredBtnDelay: 2000,
+        blurDelay: 2000,
         closeBtnBottomValue: '150px',
         closeBtnClassName: 'custom-close-btn-class',
         onClick: () => console.log('Clicked!'),
@@ -15,16 +15,16 @@ const App = () => {
         xPositionValue: '4px',
         yPositionValue: '200px',
         className: 'custom-class',
-        align: 'left',
+        stickyEdge: 'left',
     }
 
     const controlledProps = {
         ...props,
-        blurredBtnDelay: 4000,
+        blurDelay: 4000,
         closeBtnBottomValue: '50px',
         threshold: 10,
         yPositionValue: '300px',
-        align: 'right',
+        stickyEdge: 'right',
     }
 
     return (

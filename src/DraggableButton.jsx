@@ -6,12 +6,12 @@ import './draggable-button.css';
 
 const propTypes = {
     /* Delay to add grayed out button style. */
-    blurredBtnDelay: PropTypes.number,
+    blurDelay: PropTypes.number,
     /** Bottom style value for close btn */
     closeBtnBottomValue: PropTypes.string,
     /** Custom className for the close btn */
     closeBtnClassName: PropTypes.string,
-    /** If `true`, It will be visible */
+    /** If `true`, button will be visible */
     isVisible: PropTypes.bool,
     /** Callback fired when user click on component */
     onClick: PropTypes.func,
@@ -27,12 +27,14 @@ const propTypes = {
     yPositionValue: PropTypes.string,
     /** Custom class for the component wrapper. */
     className: PropTypes.string,
-    /**Align button to left or right */
-    align: PropTypes.oneOf(['left', 'right']),
+    /** Sticky edge for the button. */
+    stickyEdge: PropTypes.oneOf(['left', 'right']),
+    /** Children of the draggable button */
+    children: PropTypes.node,
 };
 
 function DraggableButton({
-    blurredBtnDelay = 3000,
+    blurDelay = 3000,
     closeBtnBottomValue = '100px',
     closeBtnClassName = '',
     isVisible: isVisibleProp,
@@ -43,7 +45,7 @@ function DraggableButton({
     xPositionValue = '0',
     yPositionValue = '400px',
     className = '',
-    align = 'left',
+    stickyEdge = 'left',
     children,
 }) {
     const [isDragging, setIsDragging] = useState(false);
@@ -160,7 +162,7 @@ function DraggableButton({
             style.left = shouldStickonLeft ? xPositionValue : null;
             style.right = !shouldStickonLeft ? xPositionValue : null;
             draggableBtnRef.current.style.opacity = 0.5;
-            style.transition = `inset 0.5s, opacity 0.2s linear ${blurredBtnDelay / 1000}s`;
+            style.transition = `inset 0.5s, opacity 0.2s linear ${blurDelay / 1000}s`;
 
             if (isCloseButtonHoveredRef.current && onClose) {
                 onClose();
@@ -175,12 +177,12 @@ function DraggableButton({
 
         document.body.style.height = 'auto';
         document.body.style.overflow = 'auto';
-    }, [isDragging, isTouch, threshold, blurredBtnDelay, onClose, onClick]);
+    }, [isDragging, isTouch, threshold, blurDelay, onClose, onClick]);
 
     const initialPositionStyles = {
         top: yPositionValue,
-        transition: `opacity 0.2s linear ${blurredBtnDelay / 1000}s`,
-        ...(align === 'right' ? { right: xPositionValue } : { left: xPositionValue }),
+        transition: `opacity 0.2s linear ${blurDelay / 1000}s`,
+        ...(stickyEdge === 'right' ? { right: xPositionValue } : { left: xPositionValue }),
     };
 
     return (
