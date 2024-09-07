@@ -35,7 +35,7 @@ function DraggableButton({
     blurredBtnDelay = 3000,
     closeBtnBottomValue = '100px',
     closeBtnClassName = '',
-    isVisible = false,
+    isVisible: isVisibleProp,
     onClick = () => {},
     onClose = () => {},
     overlayClassName = '',
@@ -48,6 +48,7 @@ function DraggableButton({
 }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isTouch, setIsTouch] = useState(false);
+    const [isVisible, setIsVisible] = useState(isVisibleProp ?? true);
     const isMouseDownRef = useRef(false);
 
     const draggableBtnRef = useRef();
@@ -64,6 +65,12 @@ function DraggableButton({
             window.removeEventListener('mousemove', handleMove);
         };
     }, []);
+
+    useEffect(() => {
+        if(isVisibleProp !== undefined) {
+            setIsVisible(isVisibleProp);
+        }
+    }, [isVisibleProp]);
 
     const handleStart = useCallback((event) => {
         setIsTouch(event.type === 'touchstart');
@@ -142,9 +149,9 @@ function DraggableButton({
 
             let yPosition;
             if (windowHeight - clientY < threshold) {
-                yPosition = windowHeight - threshold;
+                yPosition = windowHeight - (threshold + clientHeight / 2);
             } else if (windowHeight - clientY > windowHeight - threshold) {
-                yPosition = threshold;
+                yPosition = (threshold + clientHeight / 2);
             } else {
                 yPosition = clientY;
             }
@@ -157,6 +164,9 @@ function DraggableButton({
 
             if (isCloseButtonHoveredRef.current && onClose) {
                 onClose();
+                if(isVisibleProp === undefined) {
+                    setIsVisible(false);
+                }
             }
             setIsDragging(false);
         } else if (onClick) {
